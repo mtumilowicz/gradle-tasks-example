@@ -1,0 +1,28 @@
+plugins {
+    id 'java'
+}
+
+group 'gradle-tasks-example'
+version '1.0-SNAPSHOT'
+
+sourceCompatibility = 1.8
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.12'
+}
+
+task archive(type: Zip) {
+    archiveName = "app.zip"
+    destinationDir = file("${buildDir}/archive")
+    
+    from sourceSets.main.allSource
+}
+
+task backup(type: Copy) {
+    from archive
+    into "backup"
+}

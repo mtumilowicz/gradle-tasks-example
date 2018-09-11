@@ -16,7 +16,12 @@ be done.
 * **Task** -  A task represents some atomic piece of work which a build 
 performs.  
   **Example**: compiling some classes, creating a JAR, generating Javadoc  
-  _Remark_: we have custom tasks for java, add `apply plugin: java`
+  _Remark_: we have custom tasks for java
+    ```
+    plugins {
+        id 'java'
+    }
+    ```
   
 * `build.gradle` - a build configuration script
 

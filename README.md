@@ -151,3 +151,7 @@ then executing
     ```
 
 # manual
+* defining task of specific type: `task taskName(type: Copy)`
+* defining dependency on the other task: 
+`task taskName(dependsOn: otherTaskName)`
+* all predefined task types: https://docs.gradle.org/current/dsl/org.gradle.api.Task.html

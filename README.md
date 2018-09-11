@@ -155,3 +155,24 @@ then executing
 * defining dependency on the other task: 
 `task taskName(dependsOn: otherTaskName)`
 * all predefined task types: https://docs.gradle.org/current/dsl/org.gradle.api.Task.html
+
+# project description
+We provide two tasks:
+1. `Zip` type - to zip all sources
+    ```
+    task archive(type: Zip) {
+        archiveName = "app.zip"
+        destinationDir = file("${buildDir}/archive")
+        
+        from sourceSets.main.allSource
+    }
+    ```
+1. `Copy` type - to copy zip files to backup folder
+    ```
+    task backup(type: Copy) {
+        from archive
+        into "backup"
+    }
+    ```
+    _Remark_: when `Gradle` sees `from archive` it will know that task
+    `backup` is `archive`-dependent.

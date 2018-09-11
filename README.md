@@ -30,18 +30,24 @@ performs.
 * tasks are code
     ```
     task upper {
-        def list = [1, 2, 3, 4, 5]
-        println "test task"
-        list.findAll {it % 2 == 0} each {println it}
+            doLast {
+            def list = [1, 2, 3, 4, 5]
+            println "test task"
+            list.findAll {it % 2 == 0} each {println it}
+        }
     }
     ```
 * tasks could depend on other tasks
     ```
     task hello {
-        println 'hello'
+        doLast{
+            println 'hello'
+        }
     }
     task afterHello(dependsOn: hello) {
-        println 'after hello'
+        doLast {
+            println 'after hello'
+        }
     }
     ```
 * extra task properties - you can add your own properties to a task
@@ -51,7 +57,9 @@ performs.
     }
     
     task greetingPrinter {
-        greeting.shouldGreet ? println('hello') : println('bye bye')
+        doLast{
+            greeting.shouldGreet ? println('hello') : println('bye bye')
+        }
     }
     ```
 _Remark_: Gradle has a configuration phase and an execution phase. 
@@ -108,7 +116,38 @@ When a task, its actions, or its dependencies change between
 executions, Gradle considers the task as out-of-date.
 
 # excluding tasks from execution
+* gradle anotherTask --exclude-task test
+* gradle anotherTask -x test
 
-# using predicate
+# using a predicate
+Use the `onlyIf()` method to attach a predicate to a task. 
+The task’s actions are only executed if the predicate evaluates to true.
+```
+task task1 {
+    doLast {
+        println 'task1'
+    }
+}
+
+task task2(dependsOn: task1) {
+    onlyIf {false}
+    doLast {
+        println 'task2'
+    }
+}
+```
+then executing
+* `gradle task1`
+    ```
+    > Task :task1
+    task1
+    ```
+* `gradle task2`
+    ```
+    > Task :task1
+    task1
+    
+    > Task :task2 SKIPPED
+    ```
 
 # manual

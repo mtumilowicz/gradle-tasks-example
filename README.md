@@ -70,6 +70,37 @@ Task has inputs and outputs, but no sources. For example,
 source files are `.java` files for `JavaCompile`.
 
 # incremental builds
+Task takes some inputs and generates some outputs. For example:
+`JavaCompile` - input: source files, output: generated class files. 
+Other inputs might include things like whether debug information 
+should be included.
+* **task inputs** - it affects one or more outputs (example: source files,
+java version)
+* **internal task property** - no impact on outputs (example: maximum 
+memory available for compilation)
+
+As part of incremental build, Gradle tests whether any of the task 
+inputs or outputs have changed since the last build. If they haven’t, 
+Gradle can consider the task up to date and therefore skip executing 
+its actions.
+
+1. Gradle takes a snapshot of the inputs. This snapshot contains the 
+paths of input files and a hash of the contents of each file. 
+1. Gradle then executes the task. 
+1. If the task completes successfully, Gradle takes a snapshot of the 
+outputs. This snapshot contains the set of output files and a hash of 
+the contents of each file. 
+1. Gradle persists both snapshots for the next time the task is executed.
+1. Each time after that, before the task is executed, Gradle takes a 
+new snapshot of the inputs and outputs. 
+1. If the new snapshots are the same as the previous snapshots, 
+Gradle assumes that the outputs are up to date and skips the task. 
+1. If they are not the same, Gradle executes the task and persists 
+both snapshots for the next time the task is executed.
+
+**The code of the task is a part of the inputs to the task.** 
+When a task, its actions, or its dependencies change between 
+executions, Gradle considers the task as out-of-date.
 
 # excluding tasks from execution
 

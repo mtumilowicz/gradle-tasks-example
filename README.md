@@ -6,17 +6,16 @@ _Reference_: https://docs.gradle.org/current/userguide/more_about_tasks.html
 
 # preface
 Everything in Gradle sits on top of two basic concepts: projects and tasks.
-* **Project** - Gradle build is made up of one or more projects. A project 
-does not necessarily represent a thing to be built. A project does not 
+* **Project** - Gradle build is made up of one or more projects.A project does not 
 necessarily represent a thing to be built - it might represent a thing to 
-be done.
+be done.  
  **Example**: a library JAR, a web application, deploying application to 
- staging, production environment
+ staging, production environment.
  
 * **Task** -  A task represents some atomic piece of work which a build 
 performs.  
   **Example**: compiling some classes, creating a JAR, generating Javadoc  
-  _Remark_: we have custom tasks for java
+  _Remark_: we have custom tasks for java triggered by plugin:
     ```
     plugins {
         id 'java'
@@ -77,7 +76,7 @@ task is executed.**
 execution. Task has outputs restored from the build cache.
 * **SKIPPED** - Task did not execute its actions.
     * Task has been explicitly excluded from the command-line.
-    * Task has an onlyIf predicate return false.
+    * Task has an `onlyIf` predicate returns false.
 * **NO-SOURCE** - Task did not need to execute its actions.
 Task has inputs and outputs, but no sources. For example, 
 source files are `.java` files for `JavaCompile`.
